@@ -20,7 +20,7 @@ type authResponse struct {
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	if r.Header.Get("Authorization") != fmt.Sprintf("Bearer %s", os.Getenv("CRON_TOKEN")) {
+	if r.Header.Get("Authorization") != fmt.Sprintf("Bearer %s", os.Getenv("CRON_SECRET")) {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}
