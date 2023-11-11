@@ -20,6 +20,11 @@ type authResponse struct {
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
+	if r.Header.Get("Authorization") != fmt.Sprintf("Bearer %s", os.Getenv("CRON_TOKEN")) {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
 	body, err := json.Marshal(map[string]any{
 		"email":    os.Getenv("KICKBASE_EMAIL"),
 		"password": os.Getenv("KICKBASE_PASSWORD"),
