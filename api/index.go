@@ -10,7 +10,7 @@ import (
 )
 
 type league struct {
-	ID   int    `json:"id"`
+	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
@@ -49,7 +49,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	errs := make([]error, 0)
 	for _, league := range authResponse.Leagues {
-		req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("https://api.kickbase.com/leagues/%d/collectgift", league.ID), nil)
+		req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("https://api.kickbase.com/leagues/%s/collectgift", league.ID), nil)
 		if err != nil {
 			errs = append(errs, err)
 			continue
@@ -66,7 +66,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
-		log.Printf("Collected gift for league %s (%d)", league.Name, league.ID)
+		log.Printf("Collected gift for league %s (%s)", league.Name, league.ID)
 	}
 
 	if len(errs) > 0 {
